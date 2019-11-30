@@ -1,0 +1,25 @@
+{
+  "title": "RG-350 中文语言安装器",
+  "steps": {
+    "0": {
+      "type": "dialog",
+      "text": "这是内测版的中文语言包，\n仅供群友测试，请勿外传\n请按“是”开始安装",
+      "size": [240, 160],
+      "buttons": [{"name": "否", "value": -1}, {"name": "是", "value": 1}]
+    },
+    "1": {
+      "type": "decompress",
+      "text": "正在安装",
+      "width": 240,
+      "file": "data.tgz",
+      "targetDir": "/usr/local",
+      "next": 2
+    },
+    "2": {
+      "type": "dialog",
+      "text": "安装完毕，按下“确定”重启",
+      "size": [180, 60],
+      "buttons": [{"name": "确定", "value": -2}]
+    }
+  }
+}

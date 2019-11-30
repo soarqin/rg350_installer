@@ -1,0 +1,25 @@
+{
+  "title": "RG-350 Data Installer",
+  "steps": {
+    "0": {
+      "type": "dialog",
+      "text": "This is a installer for RG-350.\nPress \"Yes\" to start.",
+      "size": [240, 160],
+      "buttons": [{"name": "No", "value": -1}, {"name": "Yes", "value": 1}]
+    },
+    "1": {
+      "type": "decompress",
+      "text": "Installing",
+      "width": 240,
+      "file": "data.tgz",
+      "targetDir": "/usr/local",
+      "next": 2
+    },
+    "2": {
+      "type": "dialog",
+      "text": "Completed, press \"OK\" to reboot",
+      "size": [180, 60],
+      "buttons": [{"name": "O K", "value": -2}]
+    }
+  }
+}
