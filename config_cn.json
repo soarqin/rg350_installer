@@ -1,5 +1,6 @@
 {
   "title": "RG-350 中文语言安装器",
+  "fonts": ["/usr/share/gmenu2x/skins/Default/fonts/SourceHanSans-Regular-04.ttf"],
   "steps": {
     "0": {
       "type": "dialog",
@@ -16,6 +17,13 @@
       "next": 2
     },
     "2": {
+      "type": "executor",
+      "text": "正在同步文件，请稍候",
+      "size": [160, 40],
+      "command": "sync",
+      "next": 3
+    },
+    "3": {
       "type": "dialog",
       "text": "安装完毕，按下“确定”重启",
       "size": [180, 60],

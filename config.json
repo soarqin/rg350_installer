@@ -1,5 +1,6 @@
 {
   "title": "RG-350 Data Installer",
+  "fonts": ["/usr/share/gmenu2x/skins/Default/fonts/SourceHanSans-Regular-04.ttf"],
   "steps": {
     "0": {
       "type": "dialog",
@@ -12,10 +13,17 @@
       "text": "Installing",
       "width": 240,
       "file": "data.tgz",
-      "targetDir": "/usr/local",
+      "targetDir": "output",
       "next": 2
     },
     "2": {
+      "type": "executor",
+      "text": "Syncing files...",
+      "size": [120, 40],
+      "command": "sync",
+      "next": 3
+    },
+    "3": {
       "type": "dialog",
       "text": "Completed, press \"OK\" to reboot",
       "size": [180, 60],

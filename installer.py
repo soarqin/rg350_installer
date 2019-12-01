@@ -3,6 +3,7 @@ from time import sleep
 import pygame
 import progress
 import dialog
+import executor
 import json
 import subprocess
 import sys
@@ -18,18 +19,26 @@ class Installer:
         self.steps = steps
         self.step = 0
         self.screen = pygame.display.set_mode((320, 240), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.font = None
         pygame.display.set_caption(title)
-        self.font = pygame.font.Font('/usr/share/gmenu2x/skins/Default/fonts/SourceHanSans-Regular-04.ttf', 12)
         self.runner = None
         try:
             self.bg = pygame.image.load('bg.png')
         except pygame.error:
             self.bg = None
-        self.run_step()
 
     def __del__(self):
         pygame.font.quit()
         pygame.display.quit()
+
+    def load_fonts(self, fonts):
+        for f in fonts:
+            try:
+                self.font = pygame.font.Font(f, 12)
+            except:
+                pass
+            else:
+                return
 
     def set_runner(self, runner):
         self.runner = runner
@@ -39,7 +48,7 @@ class Installer:
             self.step = self.steps[self.step]['buttons'][idx]['value']
             return self.run_step()
 
-        def progress_complete():
+        def normal_complete():
             self.step = self.steps[self.step]['next']
             return self.run_step()
 
@@ -56,10 +65,14 @@ class Installer:
             size = s['size']
             dialog.Dialog(self, s['text'], buttons, (size[0], size[1]))\
                 .set_callbacks(dialog_confirm)
+        elif tp == 'executor':
+            size = s['size']
+            executor.Executor(self, s['command'], s['text'], (size[0], size[1]))\
+                .set_callbacks(normal_complete)
         elif tp == 'decompress':
             prg = progress.DecompressionProgress(self, s['text'], s['width'])
             prg.decompress(s['file'], s['targetDir'])
-            prg.set_callbacks(progress_complete)
+            prg.set_callbacks(normal_complete)
         return True
 
     def loop(self):
@@ -134,24 +147,6 @@ class Installer:
         return res
 
 
-# def goto_end(idx):
-#     return False
-#
-#
-# def progress_complete():
-#     dialog.Dialog(installer, '安装完毕，点击按钮重启', ['O K'], (180, 60)).set_callbacks(goto_end)
-#     return True
-#
-#
-# def dialog_confirm(idx):
-#     if idx != 1:
-#         return False
-#     prg = progress.DecompressionProgress(installer, '正在安装', 240)
-#     prg.decompress('data.tgz', 'output')
-#     prg.set_callbacks(progress_complete)
-#     return True
-
-
 if __name__ == '__main__':
     reload(sys)  # Reload does the trick!
     sys.setdefaultencoding('UTF8')
@@ -167,5 +162,7 @@ if __name__ == '__main__':
         else:
             steps[idx] = v
     installer = Installer(j['title'], steps)
+    installer.load_fonts(j["fonts"])
+    installer.run_step()
     installer.loop()
     installer = None

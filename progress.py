@@ -43,21 +43,18 @@ class DecompressionProgress(Progress):
         if self.proc:
             self.proc.stdin.close()
             self.proc.stdout.close()
+            self.proc.stderr.close()
 
     def decompress(self, filename, target_dir):
         if not os.path.exists(target_dir):
             os.makedirs(target_dir, 0755)
         self.size = os.path.getsize(filename)
-        self.proc = subprocess.Popen(['tar', 'xzf', '-', '-C', target_dir], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        self.proc = subprocess.Popen(['tar', 'xzf', '-', '-C', target_dir], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.fp = open(filename, 'rb')
 
     def process(self):
         chunk = self.fp.read(256 * 1024)
         if chunk == '':
-            try:
-                subprocess.call('sync', shell=True)
-            except:
-                pass
             if self.on_complete:
                 return self.on_complete()
             else:
