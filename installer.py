@@ -96,7 +96,7 @@ class Installer:
 
     def paint_bg(self):
         if self.bg:
-            self.screen.blit(self.bg)
+            self.screen.blit(self.bg, (0, 0))
         else:
             self.screen.fill((0, 0, 0), (0, 0, 320, 240))
         self.draw_string_centered([self.title], (0, 0, 320, 20))

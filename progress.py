@@ -26,7 +26,7 @@ class Progress(Runner):
         area = (self.x, self.y, self.w, 24)
         self.installer.draw_string_centered([self.text], area)
         area = (self.x, self.y + 24, self.w * pct / 100, 16)
-        self.installer.fill(area, (128, 192, 16))
+        self.installer.fill(area, (128, 128, 0))
         area = (self.x, self.y + 24, self.w, 16)
         self.installer.draw_string_centered([str(pct) + '%'], area)
 
