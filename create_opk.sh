@@ -3,15 +3,16 @@
 set -e
 
 if [ $# -eq 0 ]; then
-  echo "Usage: $(basename $0) <additional files>"
+  echo "Usage: $(basename $0) <config json file> <additional files>"
   exit 1
 fi
 
 pushd "$(dirname $0)" >/dev/null
 
-DATE=`date -r "$1" +%F`
+DATE=`date +%F`
 
 mkdir -p output
+rm -f output/config.json output/date.txt output/default.gcw0.desktop
 cat > output/default.gcw0.desktop <<EOF
 [Desktop Entry]
 Name=简体中文化安装器
@@ -24,11 +25,13 @@ StartupNotify=true
 Categories=applications;
 EOF
 
+cp $1 output/config.json
 echo "$DATE" > output/date.txt
 
 OPK_FILE=output/rg350-installer-$DATE.opk
 rm -f "$OPK_FILE"
-mksquashfs output/default.gcw0.desktop opendingux.png output/date.txt *.py \
+shift
+mksquashfs output/default.gcw0.desktop opendingux.png output/date.txt output/config.json *.py \
     $* "$OPK_FILE" -no-progress -noappend -comp gzip -all-root
 
 popd >/dev/null
