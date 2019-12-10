@@ -32,7 +32,7 @@ class Executor(Runner):
         x = (320 - self.w) / 2
         y = (240 - self.h) / 2
         area = (x, y, self.w, self.h)
-        self.installer.fill(area, (16, 16, 128))
+        self.installer.fill(area, (16, 16, 128, 192))
         self.installer.draw_string_centered(self.text, area)
         if self.proc.poll() is not None:
             if self.on_complete:

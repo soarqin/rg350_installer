@@ -32,7 +32,7 @@ class Dialog(Runner):
         x = (320 - self.w) / 2
         y = (240 - self.h) / 2
         area = (x, y, self.text_w, self.text_h)
-        self.installer.fill(area, (16, 16, 128))
+        self.installer.fill(area, (16, 16, 128, 192))
         self.installer.draw_string_centered(self.text, area)
         button_y = y + self.h - self.button_h
         count = len(self.buttons)
@@ -43,19 +43,19 @@ class Dialog(Runner):
             for btn in self.buttons[:count-1]:
                 area = (button_x, button_y, button_w, self.button_h)
                 if index == self.index:
-                    self.installer.fill(area, (32, 32, 192))
+                    self.installer.fill(area, (32, 32, 192, 192))
                     self.installer.draw_string_centered([btn], area, (128, 255, 128))
                 else:
-                    self.installer.fill(area, (16, 16, 128))
+                    self.installer.fill(area, (16, 16, 128, 192))
                     self.installer.draw_string_centered([btn], area)
                 button_x += button_w + 2
                 index += 1
             area = (button_x, button_y, x + self.button_w - button_x, self.button_h)
             if index == self.index:
-                self.installer.fill(area, (32, 32, 192))
+                self.installer.fill(area, (32, 32, 192, 192))
                 self.installer.draw_string_centered([self.buttons[count - 1]], area, (128, 255, 128))
             else:
-                self.installer.fill(area, (16, 16, 128))
+                self.installer.fill(area, (16, 16, 128, 192))
                 self.installer.draw_string_centered([self.buttons[count - 1]], area)
         return True
 

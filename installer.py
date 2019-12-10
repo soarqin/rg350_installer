@@ -122,7 +122,12 @@ class Installer:
             y += max_h
 
     def fill(self, area, color=(32, 32, 192)):
-        self.screen.fill(color, area)
+        if len(color) < 4:
+            self.screen.fill(color, area)
+        else:
+            s = pygame.Surface(area[2:], pygame.SRCALPHA)
+            s.fill(color)
+            self.screen.blit(s, area[:2])
 
     def wrap_string(self, texts, w):
         res = []
