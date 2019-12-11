@@ -20,6 +20,7 @@ class Dialog(Runner):
         self.button_h = 18
         self.on_press = None
         self.on_cancel = None
+        self.colors = (installer.colors['dialog'], installer.colors['button_normal'], installer.colors['button_selected'])
 
     def set_selection(self, index):
         self.index = index
@@ -32,8 +33,8 @@ class Dialog(Runner):
         x = (320 - self.w) / 2
         y = (240 - self.h) / 2
         area = (x, y, self.text_w, self.text_h)
-        self.installer.fill(area, (16, 16, 128, 192))
-        self.installer.draw_string_centered(self.text, area)
+        self.installer.fill(area, self.colors[0][1])
+        self.installer.draw_string_centered(self.text, area, self.colors[0][0])
         button_y = y + self.h - self.button_h
         count = len(self.buttons)
         if count > 0:
@@ -43,20 +44,20 @@ class Dialog(Runner):
             for btn in self.buttons[:count-1]:
                 area = (button_x, button_y, button_w, self.button_h)
                 if index == self.index:
-                    self.installer.fill(area, (32, 32, 192, 192))
-                    self.installer.draw_string_centered([btn], area, (128, 255, 128))
+                    self.installer.fill(area, self.colors[2][1])
+                    self.installer.draw_string_centered([btn], area, self.colors[2][0])
                 else:
-                    self.installer.fill(area, (16, 16, 128, 192))
-                    self.installer.draw_string_centered([btn], area)
+                    self.installer.fill(area, self.colors[1][1])
+                    self.installer.draw_string_centered([btn], area, self.colors[1][0])
                 button_x += button_w + 2
                 index += 1
             area = (button_x, button_y, x + self.button_w - button_x, self.button_h)
             if index == self.index:
-                self.installer.fill(area, (32, 32, 192, 192))
-                self.installer.draw_string_centered([self.buttons[count - 1]], area, (128, 255, 128))
+                self.installer.fill(area, self.colors[2][1])
+                self.installer.draw_string_centered([self.buttons[count - 1]], area, self.colors[2][0])
             else:
-                self.installer.fill(area, (16, 16, 128, 192))
-                self.installer.draw_string_centered([self.buttons[count - 1]], area)
+                self.installer.fill(area, self.colors[1][1])
+                self.installer.draw_string_centered([self.buttons[count - 1]], area, self.colors[1][0])
         return True
 
     def key_event(self, key):

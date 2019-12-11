@@ -15,6 +15,7 @@ class Progress(Runner):
         self.on_complete = None
         self.size = 1
         self.progress = 0
+        self.colors = (installer.colors['dialog'], installer.colors['progress'])
 
     def set_callbacks(self, on_complete):
         self.on_complete = on_complete
@@ -22,13 +23,13 @@ class Progress(Runner):
     def draw_progress(self):
         pct = self.progress * 100 / self.size
         area = (self.x, self.y, self.w, self.h)
-        self.installer.fill(area, (16, 16, 128, 192))
+        self.installer.fill(area, self.colors[0][1])
         area = (self.x, self.y, self.w, 24)
-        self.installer.draw_string_centered([self.text], area)
+        self.installer.draw_string_centered([self.text], area, self.colors[0][0])
         area = (self.x, self.y + 24, self.w * pct / 100, 16)
-        self.installer.fill(area, (128, 128, 0, 192))
+        self.installer.fill(area, self.colors[1][1])
         area = (self.x, self.y + 24, self.w, 16)
-        self.installer.draw_string_centered([str(pct) + '%'], area)
+        self.installer.draw_string_centered([str(pct) + '%'], area, self.colors[1][0])
 
 
 class DecompressionProgress(Progress):

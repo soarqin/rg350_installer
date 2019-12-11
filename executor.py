@@ -18,7 +18,7 @@ class Executor(Runner):
             self.proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
             self.proc = subprocess.Popen([command], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print(self.proc.pid)
+        self.colors = installer.colors['dialog']
 
     def __del__(self):
         if self.proc:
@@ -32,8 +32,8 @@ class Executor(Runner):
         x = (320 - self.w) / 2
         y = (240 - self.h) / 2
         area = (x, y, self.w, self.h)
-        self.installer.fill(area, (16, 16, 128, 192))
-        self.installer.draw_string_centered(self.text, area)
+        self.installer.fill(area, self.colors[1])
+        self.installer.draw_string_centered(self.text, area, self.colors[0])
         if self.proc.poll() is not None:
             if self.on_complete:
                 return self.on_complete()

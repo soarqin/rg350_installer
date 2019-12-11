@@ -5,6 +5,7 @@ import progress
 import dialog
 import executor
 import json
+import struct
 import subprocess
 import sys
 
@@ -22,14 +23,42 @@ class Installer:
         self.font = None
         pygame.display.set_caption(title)
         self.runner = None
-        try:
-            self.bg = pygame.image.load('bg.png')
-        except pygame.error:
-            self.bg = None
+        self.bg = None
+        self.colors = {
+            'dialog': ['#FFFFFF', '#101080C0'],
+            'button_normal': ['#FFFFFF', '#101080C0'],
+            'button_selected': ['#80FF80', '#2020C0C0'],
+            'progress': ['#FFFFFF', '#808000C0']
+        }
 
     def __del__(self):
         pygame.font.quit()
         pygame.display.quit()
+
+    def setup_bg(self, bg):
+        try:
+            self.bg = pygame.image.load(bg)
+        except pygame.error:
+            self.bg = None
+
+    def setup_colors(self, colors):
+        for k, v in colors.items():
+            self.colors[k] = v
+
+    def convert_colors(self):
+        colors = {}
+        for k, v in self.colors.items():
+            converted = []
+            for c in v:
+                if c[0] == '#':
+                    c = c[1:]
+                if len(c) == 6:
+                    converted.append((int(c[0:2], 16), int(c[2:4], 16), int(c[4:6], 16)))
+                if len(c) == 8:
+                    converted.append((int(c[0:2], 16), int(c[2:4], 16), int(c[4:6], 16), int(c[6:8], 16)))
+            colors[k] = converted
+        self.colors = colors
+        pass
 
     def load_fonts(self, fonts):
         for f in fonts:
@@ -167,6 +196,11 @@ if __name__ == '__main__':
         else:
             steps[idx] = v
     installer = Installer(j['title'], steps)
+    if 'bg' in j:
+        installer.setup_bg(j['bg'])
+    if 'colors' in j:
+        installer.setup_colors(j['colors'])
+    installer.convert_colors()
     installer.load_fonts(j["fonts"])
     installer.run_step()
     installer.loop()

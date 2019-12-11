@@ -1,6 +1,13 @@
 {
   "title": "RG-350 Data Installer",
   "fonts": ["/usr/share/gmenu2x/skins/Default/fonts/SourceHanSans-Regular-04.ttf"],
+  "bg": "bg.png",
+  "colors": {
+    "dialog": ["#FFFFFF", "#101080C0"],
+    "button_normal": ["#FFFFFF", "#101080C0"],
+    "button_selected": ["#80FF80", "#2020C0C0"],
+    "progress": ["#FFFFFF", "#808000C0"]
+  },
   "steps": {
     "0": {
       "type": "dialog",
